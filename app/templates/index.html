@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Predictor de Salarios AI</title>
+</head>
+
+<body>
+    <h2>Predictor de Salarios (AI Jobs)</h2>
+    <form action="/predict" method="post">
+        <div class="field">
+            <label>Años de Experiencia:</label>
+            <input type="number" step="1" name="years_experience" placeholder="Ej: 5" required>
+        </div>
+        <div class="field">
+            <label>Ratio de Trabajo Remoto (0, 50, 100):</label>
+            <input type="number" name="remote_ratio" placeholder="Ej: 100" required>
+        </div>
+        <div class="field">
+            <label>Puntuación de Beneficios (1-10):</label>
+            <input type="number" step="0.1" name="benefits_score" placeholder="Ej: 7.5" required>
+        </div>
+
+        <div class="field">
+            <label>Nivel de Experiencia:</label>
+            <select name="experience_level">
+                <option value="EN">Entry-level (EN)</option>
+                <option value="MI">Mid-level (MI)</option>
+                <option value="SE">Senior-level (SE)</option>
+                <option value="EX">Executive-level (EX)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Tipo de Empleo:</label>
+            <select name="employment_type">
+                <option value="FT">Full-time (FT)</option>
+                <option value="PT">Part-time (PT)</option>
+                <option value="CT">Contract (CT)</option>
+                <option value="FL">Freelance (FL)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Tamaño de la Empresa:</label>
+            <select name="company_size">
+                <option value="S">Pequeña (S)</option>
+                <option value="M">Mediana (M)</option>
+                <option value="L">Grande (L)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Educación Requerida:</label>
+            <input type="text" name="education_required" placeholder="Ej: Bachelor, Master, PhD" required>
+        </div>
+        <div class="field">
+            <label>Ubicación de la Empresa:</label>
+            <input type="text" name="company_location" placeholder="Ej: United States, Germany" required>
+        </div>
+        <div class="field">
+            <label>Industria:</label>
+            <input type="text" name="industry" placeholder="Ej: Technology, Finance" required>
+        </div>
+
+        <button type="submit">Calcular Sueldo Estimado</button>
+    </form>
+
+    {% if prediction_text %}
+    <h3 style="color: #0056b3;">{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+
+</html>
