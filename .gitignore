@@ -33,8 +33,7 @@ Thumbs.db
 *.pkl
 *.h5
 *.pth
-*.keras
-*.joblib
+
 
 # Datos CSV grandes
 *.csv
