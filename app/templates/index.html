@@ -3,70 +3,296 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictor de Salarios AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1588FD 0%, #1076FD 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 24px 80px rgba(21, 136, 253, 0.25);
+            max-width: 900px;
+            width: 100%;
+            padding: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #1076FD;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            letter-spacing: 0.3px;
+        }
+
+        input, select {
+            padding: 14px 18px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background-color: #F9FAFB;
+            font-family: 'Inter', sans-serif;
+            color: #1F2937;
+        }
+
+        input:hover, select:hover {
+            border-color: #6CC5FD;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1588FD;
+            background-color: #E8FEFE;
+            box-shadow: 0 0 0 4px rgba(21, 136, 253, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231588FD' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1588FD 0%, #1076FD 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(21, 136, 253, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(21, 136, 253, 0.5);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .result {
+            background: linear-gradient(135deg, #1588FD 0%, #1076FD 100%);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 32px;
+            font-size: 1.5em;
+            font-weight: 600;
+            animation: slideIn 0.5s ease-out;
+            box-shadow: 0 8px 24px rgba(21, 136, 253, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .field-group {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result {
+                font-size: 1.2em;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Predictor de Salarios (AI Jobs)</h2>
-    <form action="/predict" method="post">
-        <div class="field">
-            <label>Años de Experiencia:</label>
-            <input type="number" step="1" name="years_experience" placeholder="Ej: 5" required>
-        </div>
-        <div class="field">
-            <label>Ratio de Trabajo Remoto (0, 50, 100):</label>
-            <input type="number" name="remote_ratio" placeholder="Ej: 100" required>
-        </div>
-        <div class="field">
-            <label>Puntuación de Beneficios (1-10):</label>
-            <input type="number" step="0.1" name="benefits_score" placeholder="Ej: 7.5" required>
-        </div>
+    <div class="container">
+        <h2>Predictor de Salarios</h2>
+        <p class="subtitle">Obtén una estimación precisa basada en datos del mercado laboral</p>
+        
+        <form action="/predict" method="post">
+            <div class="form-grid">
+                <div class="field">
+                    <label>Posición / Rol:</label>
+                    <select name="job_title" required>
+                        <option value="">Selecciona una posición</option>
+                        <option value="AI Research Scientist">AI Research Scientist</option>
+                        <option value="AI Software Engineer">AI Software Engineer</option>
+                        <option value="AI Specialist">AI Specialist</option>
+                        <option value="NLP Engineer">NLP Engineer</option>
+                        <option value="AI Consultant">AI Consultant</option>
+                        <option value="AI Architect">AI Architect</option>
+                        <option value="Principal Data Scientist">Principal Data Scientist</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="Autonomous Systems Engineer">Autonomous Systems Engineer</option>
+                        <option value="AI Product Manager">AI Product Manager</option>
+                        <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                        <option value="Data Engineer">Data Engineer</option>
+                        <option value="Research Scientist">Research Scientist</option>
+                        <option value="ML Ops Engineer">ML Ops Engineer</option>
+                        <option value="Robotics Engineer">Robotics Engineer</option>
+                        <option value="Head of AI">Head of AI</option>
+                        <option value="Deep Learning Engineer">Deep Learning Engineer</option>
+                        <option value="Data Scientist">Data Scientist</option>
+                        <option value="Machine Learning Researcher">Machine Learning Researcher</option>
+                        <option value="Computer Vision Engineer">Computer Vision Engineer</option>
+                    </select>
+                </div>
+                
+                <div class="field">
+                    <label>Años de Experiencia:</label>
+                    <input type="number" step="1" name="years_experience" placeholder="Ej: 5" required>
+                </div>
+                
+                <div class="field">
+                    <label>Trabajo Remoto (%):</label>
+                    <input type="number" name="remote_ratio" placeholder="0, 50 o 100" min="0" max="100" required>
+                </div>
+                
+                <div class="field">
+                    <label>Puntuación de Beneficios (1-10):</label>
+                    <input type="number" step="0.1" name="benefits_score" placeholder="Ej: 7.5" min="1" max="10" required>
+                </div>
+                
+                <div class="field">
+                    <label>Nivel de Experiencia:</label>
+                    <select name="experience_level" required>
+                        <option value="EN">Entry-level</option>
+                        <option value="MI">Mid-level</option>
+                        <option value="SE">Senior-level</option>
+                        <option value="EX">Executive-level</option>
+                    </select>
+                </div>
+                
+                <div class="field">
+                    <label>Tipo de Empleo:</label>
+                    <select name="employment_type" required>
+                        <option value="FT">Full-time</option>
+                        <option value="PT">Part-time</option>
+                        <option value="CT">Contract</option>
+                        <option value="FL">Freelance</option>
+                    </select>
+                </div>
+                
+                <div class="field">
+                    <label>Tamaño de la Empresa:</label>
+                    <select name="company_size" required>
+                        <option value="S">Pequeña</option>
+                        <option value="M">Mediana</option>
+                        <option value="L">Grande</option>
+                    </select>
+                </div>
+                
+                <div class="field">
+                    <label>Educación Requerida:</label>
+                    <input type="text" name="education_required" placeholder="Bachelor, Master, PhD" required>
+                </div>
+                
+                <div class="field">
+                    <label>Ubicación de la Empresa:</label>
+                    <input type="text" name="company_location" placeholder="United States, Germany..." required>
+                </div>
+                
+                <div class="field">
+                    <label>Industria:</label>
+                    <input type="text" name="industry" placeholder="Technology, Finance, Healthcare..." required>
+                </div>
+            </div>
 
-        <div class="field">
-            <label>Nivel de Experiencia:</label>
-            <select name="experience_level">
-                <option value="EN">Entry-level (EN)</option>
-                <option value="MI">Mid-level (MI)</option>
-                <option value="SE">Senior-level (SE)</option>
-                <option value="EX">Executive-level (EX)</option>
-            </select>
-        </div>
-        <div class="field">
-            <label>Tipo de Empleo:</label>
-            <select name="employment_type">
-                <option value="FT">Full-time (FT)</option>
-                <option value="PT">Part-time (PT)</option>
-                <option value="CT">Contract (CT)</option>
-                <option value="FL">Freelance (FL)</option>
-            </select>
-        </div>
-        <div class="field">
-            <label>Tamaño de la Empresa:</label>
-            <select name="company_size">
-                <option value="S">Pequeña (S)</option>
-                <option value="M">Mediana (M)</option>
-                <option value="L">Grande (L)</option>
-            </select>
-        </div>
-        <div class="field">
-            <label>Educación Requerida:</label>
-            <input type="text" name="education_required" placeholder="Ej: Bachelor, Master, PhD" required>
-        </div>
-        <div class="field">
-            <label>Ubicación de la Empresa:</label>
-            <input type="text" name="company_location" placeholder="Ej: United States, Germany" required>
-        </div>
-        <div class="field">
-            <label>Industria:</label>
-            <input type="text" name="industry" placeholder="Ej: Technology, Finance" required>
-        </div>
+            <button type="submit">Calcular Salario Estimado</button>
+        </form>
 
-        <button type="submit">Calcular Sueldo Estimado</button>
-    </form>
-
-    {% if prediction_text %}
-    <h3 style="color: #0056b3;">{{ prediction_text }}</h3>
-    {% endif %}
+        {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
 </body>
 
 </html>
